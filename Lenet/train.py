@@ -76,7 +76,7 @@ for i in range(epochs):
     model.train()
     train_progress = tqdm(train_data, desc=f'Epoch {i + 1}/{epochs}', leave=True)
 
-    for batch_idx, (inputs, labels) in enumerate(train_data):
+    for batch_idx, (inputs, labels) in enumerate(train_progress):
         inputs, labels = inputs.to(device), labels.to(device)
 
         optim.zero_grad()
