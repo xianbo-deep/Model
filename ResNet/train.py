@@ -20,12 +20,13 @@ train_transform = transforms.Compose([
 test_transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
+    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
 ])
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-model = resnet152(10).to(device)
+model = resnet50(10).to(device)
 
 train_data = datasets.CIFAR10(root='./data', train=True, transform=train_transform, download=False)
 train_loader = DataLoader(train_data, batch_size=64, shuffle=True,num_workers=4,pin_memory=True)
@@ -42,7 +43,7 @@ criterion = nn.CrossEntropyLoss()
 
 epochs = 20
 
-writer = SummaryWriter('./logs/resnet152')
+writer = SummaryWriter('./logs/resnet50')
 
 best_acc = 0
 
@@ -95,7 +96,7 @@ for epoch in range(epochs):
 
     if eval_accuracy > best_acc:
         best_acc = eval_accuracy
-        torch.save(model.state_dict(), './model/resnet152.pth')
+        torch.save(model.state_dict(), './model/resnet50.pth')
     scheduler.step()
 
 
