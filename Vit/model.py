@@ -59,7 +59,7 @@ class Attention(nn.Module):
         # 将输入映射到q、k、v三个矩阵
         qkv = self.qkv(x)
         # 拆分成多头 [B, N, 3, num_heads, head_dim]
-        qkv = qkv.repeat(B,N,3,self.heads,C // self.heads)
+        qkv = qkv.reshape(B,N,3,self.heads,C // self.heads)
         # 重新分配维度 [3, B, num_heads, N, head_dim]
         qkv = qkv.permute(2, 0, 3, 1,4)
         # 分割出q、k、v三个矩阵，每个q、k、v有多个头
